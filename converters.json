@@ -1,0 +1,6 @@
+{
+  "input_matrix":"api.converters.data_resource.CromwellSingleDataResourceConverter", 
+  "distance_metric": "api.converters.basic_attributes.StringConverter",
+  "clustering_dimension": "api.converters.basic_attributes.StringConverter",
+  "linkage": "api.converters.basic_attributes.StringConverter"
+}

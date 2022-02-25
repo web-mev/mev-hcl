@@ -1,0 +1,64 @@
+{
+    "name": "Hierarchical clustering (HCL)", 
+    "description": "Executes a hierarchical clustering on samples/observations only.", 
+    "inputs": {
+        "HierarchicalCluster.input_matrix": {
+            "description": "The input matrix. For example, a gene expression matrix for a cohort of samples.", 
+            "name": "Input matrix:", 
+            "required": true, 
+            "spec": {
+                "attribute_type": "VariableDataResource", 
+                "resource_types": ["MTX","I_MTX", "EXP_MTX", "RNASEQ_COUNT_MTX"], 
+                "many": false
+            }
+        }, 
+        "HierarchicalCluster.distance_metric": {
+            "description":"The distance metric for the clustering. Determines how we measure the similarity of observations or features.",
+            "name":"Distance metric:",
+            "required": false,
+            "spec": {
+                "attribute_type": "OptionString",
+                "default": "euclidean",
+                "options": ["euclidean","cityblock","correlation", "cosine", "mahalanobis"]
+            }
+        },
+        "HierarchicalCluster.clustering_dimension": {
+            "description":"The clustering dimension. Should we cluster the samples/observations, the features/genes, or both?",
+            "name":"Cluster dimension:",
+            "required": false,
+            "spec": {
+                "attribute_type": "OptionString",
+                "default": "observations",
+                "options": ["both","observations", "features"]
+            }
+        },
+        "HierarchicalCluster.linkage": {
+            "description":"How the clusters are determined. ",
+            "name":"Linkage choice:",
+            "required": false,
+            "spec": {
+                "attribute_type": "OptionString",
+                "default": "ward",
+                "options": ["ward", "complete", "average", "single"]
+            }
+        }
+    }, 
+    "outputs": {
+        "HierarchicalCluster.observation_clusters": {
+            "spec": {
+                "attribute_type": "DataResource", 
+                "resource_type": "JSON",
+                "many": false
+            }
+        },
+        "HierarchicalCluster.feature_clusters": {
+            "spec": {
+                "attribute_type": "DataResource", 
+                "resource_type": "JSON",
+                "many": false
+            }
+        }
+    }, 
+    "mode": "cromwell",
+    "workspace_operation": true
+}
