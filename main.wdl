@@ -38,12 +38,12 @@ task runCluster {
     Int disk_size = 50
 
     command <<<
-        python3 /opt/software/run_hcl.py -i ~{input_matrix} \
-            -d ~{distance_metric} \
-            -l ~{linkage} \
-            -c ~{clustering_dimension} \
-            -o ~{observations_output} \
-            -f ~{features_output}
+        python3 /opt/software/run_hcl.py -i ${input_matrix} \
+            -d ${distance_metric} \
+            -l ${linkage} \
+            -c ${clustering_dimension} \
+            -o ${observations_output} \
+            -f ${features_output}
     >>>
 
     output {
