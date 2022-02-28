@@ -4,6 +4,7 @@ import json
 import argparse
 import pandas as pd
 import numpy as np
+from collections import deque
 from scipy.spatial.distance import pdist, squareform
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import to_tree
@@ -74,28 +75,65 @@ def create_linkage_matrix(clustering):
         counts]).astype(float)
 
 
-def print_node(cluster_node, node_labels):
-    node_id = cluster_node.get_id()
-    try:
-        label = node_labels[node_id]
-    except KeyError as ex:
-        label = str(node_id)
-    d = {'name': label}
-    if not cluster_node.is_leaf():
-        right_subtree = print_node(cluster_node.get_right(), node_labels)
-        left_subtree = print_node(cluster_node.get_left(), node_labels)
-        d['children'] = [left_subtree, right_subtree]
-    return d
+def print_tree(nodelist, mapping):
+    '''
+    Returns a dict which has nested formatting amenable to plotting a tree 
+    structure with, e.g., the D3 javascript library.
 
+    This implementation was previously recursive, but we often exceeded the default 
+    recursion depth limit. Rather than reset the limit, we changed it to be more iterative
+    with dicts
+
+    `nodelist` is a list of ClusterNode instances returned by the `to_tree` function
+    `mapping` is a dict of integers to sample names (e.g. {0: 'A', 1: 'B',...})
+    where the integer refers to the column position of the original matrix
+    (and hence the linkage) 
+
+    Note that this should work regardless of the ordering of `nodelist`, but by default
+    scipy returns a list ordered in a manner that should not require multiple visits 
+    to the nodes.
+    '''
+
+    # Split out which nodes are leaves and which aren't
+    completed_subtrees = {}
+    others_dict = {}
+    for node in nodelist:
+        if node.is_leaf():
+            completed_subtrees[node.id] = {'name': mapping[node.id]}
+        else:
+            others_dict[node.id] = (node.left.id, node.right.id)
+
+    unresolved_nodes = deque(others_dict)
+    while unresolved_nodes:
+        node_id = unresolved_nodes.popleft()
+        left_id, right_id = others_dict[node_id]
+        if (left_id in completed_subtrees) and (right_id in completed_subtrees):
+            completed_subtrees[node_id] = {
+                'name': str(node_id),
+                'children': [
+                    # we pop since we don't need to track those subtrees once they
+                    # are part of their parent's node
+                    completed_subtrees.pop(left_id),
+                    completed_subtrees.pop(right_id)
+                ]
+            }
+            # the subtree rooted at this node is fully resolved. We can drop it from
+            # the dictionary tracking the unresolved nodes
+            others_dict.pop(node_id)
+        else:
+            unresolved_nodes.append(node_id)
+    return completed_subtrees
 
 def create_tree(linkage_matrix, node_labels):
     '''
     Creates a JSON structure amenable for plotting with a library
     such as D3.
     '''
-    cluster_node = to_tree(linkage_matrix)
-    full_tree = print_node(cluster_node, node_labels)
-    return full_tree
+    root_node, nodelist = to_tree(linkage_matrix, rd=True)
+    d = print_tree(nodelist, node_labels)
+    # dictionary returned by `print_tree` has only a single key addressed by
+    # the root node's ID. We only want that part, not the whole dict
+    return d[root_node.id]
 
 
 def cluster(df, dist_metric, linkage):
