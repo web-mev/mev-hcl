@@ -294,16 +294,13 @@ if __name__ == '__main__':
     obs_mapping = dict(zip(np.arange(df.shape[1]), df.columns.tolist()))
     feature_mapping = dict(zip(np.arange(df.shape[0]), df.index.tolist()))
 
-    feature_tree_output, observation_tree_output = None, None
     if (args.cluster_dim == 'features') or (args.cluster_dim == 'both'):
         feature_clustering = cluster(df, args.dist_metric, args.linkage)
         feature_linkage_mtx = create_linkage_matrix(feature_clustering)
         t = create_tree(feature_linkage_mtx, feature_mapping, args.max_depth)
-        feature_tree_output = os.path.join(working_dir, args.features_output)
-        json.dump(t, open(feature_tree_output, 'w'))
+        json.dump(t, open(args.features_output, 'w'))
     if (args.cluster_dim == 'observations') or (args.cluster_dim == 'both'):
         observation_clustering = cluster(df.T, args.dist_metric, args.linkage)
         observation_linkage_mtx = create_linkage_matrix(observation_clustering)
         t = create_tree(observation_linkage_mtx, obs_mapping, args.max_depth)
-        observation_tree_output = os.path.join(working_dir, args.observations_output)
-        json.dump(t, open(observation_tree_output, 'w'))
+        json.dump(t, open(args.observations_output, 'w'))
