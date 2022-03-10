@@ -52,7 +52,7 @@ task runCluster {
     }
 
     runtime {
-        docker: "hsphqbrc/mev-hcl"
+        docker: "ghcr.io/web-mev/mev-hcl"
         cpu: 4
         memory: "30 G"
         disks: "local-disk " + disk_size + " HDD"
