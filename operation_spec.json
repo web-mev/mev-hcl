@@ -45,7 +45,7 @@
     }, 
     "outputs": {
         "HierarchicalCluster.observation_clusters": {
-            "required": true,
+            "required": false,
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "JSON",
@@ -53,7 +53,7 @@
             }
         },
         "HierarchicalCluster.feature_clusters": {
-            "required": true,
+            "required": false,
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "JSON",
