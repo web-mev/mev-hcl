@@ -1,6 +1,6 @@
 {
     "name": "Hierarchical clustering (HCL)", 
-    "description": "Executes a hierarchical clustering on samples/observations only.", 
+    "description": "Executes hierarchical clustering. Choose from samples/observations, genes/features, or both. Note that the feature clustering can take a significant amount of time.", 
     "inputs": {
         "HierarchicalCluster.input_matrix": {
             "description": "The input matrix. For example, a gene expression matrix for a cohort of samples.", 
