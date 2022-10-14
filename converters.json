@@ -1,6 +1,0 @@
-{
-  "HierarchicalCluster.input_matrix":"api.converters.data_resource.CromwellSingleDataResourceConverter", 
-  "HierarchicalCluster.distance_metric": "api.converters.basic_attributes.StringConverter",
-  "HierarchicalCluster.clustering_dimension": "api.converters.basic_attributes.StringConverter",
-  "HierarchicalCluster.linkage": "api.converters.basic_attributes.StringConverter"
-}

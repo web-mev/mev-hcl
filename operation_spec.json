@@ -6,6 +6,7 @@
             "description": "The input matrix. For example, a gene expression matrix for a cohort of samples.", 
             "name": "Input matrix:", 
             "required": true, 
+            "converter": "api.converters.data_resource.CromwellSingleVariableDataResourceConverter",
             "spec": {
                 "attribute_type": "VariableDataResource", 
                 "resource_types": ["MTX","I_MTX", "EXP_MTX", "RNASEQ_COUNT_MTX"], 
@@ -16,6 +17,7 @@
             "description":"The distance metric for the clustering. Determines how we measure the similarity of observations or features.",
             "name":"Distance metric:",
             "required": false,
+            "converter": "api.converters.basic_attributes.StringConverter",
             "spec": {
                 "attribute_type": "OptionString",
                 "default": "euclidean",
@@ -26,6 +28,7 @@
             "description":"The clustering dimension. Should we cluster the samples/observations, the features/genes, or both?",
             "name":"Cluster dimension:",
             "required": false,
+            "converter": "api.converters.basic_attributes.StringConverter",
             "spec": {
                 "attribute_type": "OptionString",
                 "default": "observations",
@@ -36,6 +39,7 @@
             "description":"How the clusters are determined. ",
             "name":"Linkage choice:",
             "required": false,
+            "converter": "api.converters.basic_attributes.StringConverter",
             "spec": {
                 "attribute_type": "OptionString",
                 "default": "ward",
@@ -46,6 +50,7 @@
     "outputs": {
         "HierarchicalCluster.observation_clusters": {
             "required": false,
+            "converter": "api.converters.data_resource.CromwellSingleDataResourceConverter",
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "JSON",
@@ -54,6 +59,7 @@
         },
         "HierarchicalCluster.feature_clusters": {
             "required": false,
+            "converter": "api.converters.data_resource.CromwellSingleDataResourceConverter",
             "spec": {
                 "attribute_type": "DataResource", 
                 "resource_type": "JSON",
