@@ -17,8 +17,8 @@ workflow HierarchicalCluster {
     }
 
     output {
-        File? observation_clusters = runCluster.observation_clusters
-        File? feature_clusters = runCluster.feature_clusters
+        File observation_clusters = runCluster.observation_clusters
+        File feature_clusters = runCluster.feature_clusters
     }
 
 }
@@ -37,7 +37,11 @@ task runCluster {
     String features_output = "features_hcl.json"
     Int disk_size = 50
 
+    String empty_json = "{}"
+
     command <<<
+        echo ${empty_json} > ${observations_output}
+        echo ${empty_json} > ${features_output}
         python3 /opt/software/run_hcl.py -i ${input_matrix} \
             -d ${distance_metric} \
             -l ${linkage} \
@@ -47,8 +51,8 @@ task runCluster {
     >>>
 
     output {
-        File? observation_clusters = "${observations_output}"
-        File? feature_clusters = "${features_output}"
+        File observation_clusters = "${observations_output}"
+        File feature_clusters = "${features_output}"
     }
 
     runtime {
@@ -56,7 +60,6 @@ task runCluster {
         cpu: 4
         memory: "30 G"
         disks: "local-disk " + disk_size + " HDD"
-        preemptible: 0
     }
 }
 
