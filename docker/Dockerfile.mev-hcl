@@ -9,5 +9,3 @@ ADD requirements.txt /opt/software/
 ADD run_hcl.py /opt/software/
 RUN chmod +x /opt/software/run_hcl.py
 RUN pip3 install -r /opt/software/requirements.txt
-
-ENTRYPOINT ["/bin/bash"]
