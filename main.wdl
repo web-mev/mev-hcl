@@ -42,7 +42,7 @@ task runCluster {
     command <<<
         echo ${empty_json} > ${observations_output}
         echo ${empty_json} > ${features_output}
-        python3 /opt/software/run_hcl.py -i ${input_matrix} \
+        python3 /usr/local/bin/run_hcl.py -i ${input_matrix} \
             -d ${distance_metric} \
             -l ${linkage} \
             -c ${clustering_dimension} \
