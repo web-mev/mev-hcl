@@ -1,7 +1,6 @@
 {
-  "HierarchicalCluster.input_matrix": "File",
-  "HierarchicalCluster.clustering_dimension": "String",
-  "HierarchicalCluster.distance_metric": "String",
-  "HierarchicalCluster.linkage": "String"
+  "input_matrix": "File",
+  "clustering_dimension": "String",
+  "distance_metric": "String",
+  "linkage": "String"
 }
-
