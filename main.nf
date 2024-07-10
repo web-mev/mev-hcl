@@ -5,7 +5,7 @@ process run_hcl {
     publishDir "${params.output_dir}/HierarchicalCluster.feature_clusters", mode:"copy", pattern:"${feature_file}"
     container "ghcr.io/web-mev/mev-hcl"
     cpus 4
-    memory '12 GB'
+    memory '32 GB'
 
     input:
         path(input_file)
